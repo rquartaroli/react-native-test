@@ -57,7 +57,7 @@ Curl (exemplo):
 
 URL:
   
-    http://`contexto`/api/mensagem/ultimas-noticias/v3
+    https://`contexto`/api/mensagem/ultimas-noticias/v3
 
 Curl (exemplo):
 
