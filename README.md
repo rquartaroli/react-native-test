@@ -20,8 +20,8 @@
 
 **1 - Construa uma interface com os campos Login e Senha e um botão entrar. Ao tocar em entrar, o app deve executar a requisição abaixo, a qual retornará uma lista de escolas disponíveis para o usuário.**
 
-    Usuário: pai
-    Senha: pai@123
+    Usuário: rntest
+    Senha: teste-123
 
 API:
 
@@ -33,8 +33,8 @@ Curl (exemplo):
       https://api.tst2.escolaapp.com/api/v1/Acesso/login \
       -H 'Content-Type: application/json' \
       -d '{
-        "login": "pai",
-        "senha": "pai@123",
+        "login": "rntest",
+        "senha": "teste-123",
         "nomeApp": "br.com.eem.teste",
         "versaoApp": "10",
         "versaoSO": "10",
