@@ -3,8 +3,9 @@ import React from 'react';
 import { StatusBar } from 'react-native';
 import { ThemeProvider } from 'styled-components';
 
-import { SignIn } from './src/screens/SignIn';
 import theme from './src/styles/theme';
+import { Routes } from './src/routes';
+import { AuthProvider } from './src/hooks/auth';
 
 export default function App() {
   return (
@@ -14,7 +15,9 @@ export default function App() {
         translucent
         backgroundColor="transparent"
       />
-      <SignIn />
+      <AuthProvider>
+        <Routes />
+      </AuthProvider>
     </ThemeProvider>
   );
 }

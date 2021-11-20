@@ -22,9 +22,7 @@ export const IconBack = styled(BorderlessButton)``;
 
 export const IconHelp = styled(BorderlessButton)``;
 
-export const WrapperLogin = styled.View`
-
-`;
+export const WrapperLogin = styled.View``;
 
 export const TextInfo = styled.Text`
   color: ${({theme}) => theme.colors.text};
@@ -69,5 +67,3 @@ export const WrapperPrivacyPolicy = styled.View`
   justify-content: space-between;
   margin-top: ${RFPercentage(2)}px;
 `;
-
-export const CelularAqui = styled.View``;

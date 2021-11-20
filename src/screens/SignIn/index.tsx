@@ -21,18 +21,20 @@ import {
   InputPassword,
   WrapperPrivacyPolicy,
   Hr,
-  CelularAqui,
 } from './styles';
 import { Button } from '../../components/Button';
 import { ButtonHref } from '../../components/ButtonHref';
 import { ButtonWithIcon } from '../../components/ButtonWithIcon';
+import { useAuth } from '../../hooks/auth';
 
 export function SignIn() {
   const [user, setUser] = useState('');
   const [password, setPassword] = useState('');
 
-  function handleSignIn() {
-    console.log('Fez o login');
+  const { signIn } = useAuth();
+
+  async function handleSignIn() {
+    signIn(user, password);
   }
 
   return (
@@ -88,6 +90,7 @@ export function SignIn() {
 
             <InputPassword 
               placeholder="Senha"
+              autoCapitalize="none"
               autoCorrect={false}
               placeholderTextColor="#FFF"
               secureTextEntry={true}
