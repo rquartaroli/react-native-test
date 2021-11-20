@@ -2,16 +2,17 @@ import React, { useState } from 'react';
 import { MaterialIcons } from '@expo/vector-icons';
 
 import { Header } from '../../components/Header';
+import { SchoolCard } from '../../components/SchoolCard';
+import { useAuth } from '../../hooks/auth';
 
 import {
   Container,
   BackgroundSearch,
+  SchoolScroll,
   DivSearch,
   IconSearch,
   InputSearch,
 } from './styles';
-import { SchoolCard } from '../../components/SchoolCard';
-import { useAuth } from '../../hooks/auth';
 
 export function Schools() {
   const [searchSchool, setSearchSchool] = useState('');
@@ -41,14 +42,17 @@ export function Schools() {
         </DivSearch>
       </BackgroundSearch>
 
-      {school.map(cardSchool => 
-        <SchoolCard 
-          key={cardSchool.contexto}
-          iconImg={cardSchool.urlLogoContexto}
-          nameSchool={cardSchool.nomeAplicacao}
-          urlSchool={cardSchool.contexto}
-        />
-      )}
+      <SchoolScroll>
+        {school.map(cardSchool => 
+          <SchoolCard 
+            key={cardSchool.contexto}
+            iconImg={cardSchool.urlLogoContexto}
+            nameSchool={cardSchool.nomeAplicacao}
+            urlSchool={cardSchool.contexto}
+            token={cardSchool.token}
+          />
+        )}
+      </SchoolScroll>
     </Container>
   );
 }

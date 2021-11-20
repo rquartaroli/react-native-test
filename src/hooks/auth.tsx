@@ -29,6 +29,7 @@ interface SchoolProps {
 interface IAuthContextData {
   school: SchoolProps[];
   signIn(login: string, senha: string): Promise<void>;
+  chargeSchool(contexto: string, token: string): Promise<void>;
 }
 
 const AuthContext = createContext({} as IAuthContextData);
@@ -65,6 +66,28 @@ function AuthProvider({children}: AuthProviderProps) {
     }
   }
 
+  async function chargeSchool(contexto: string, token: string) {
+    try {
+      const response = await api.post(`https://${contexto}/api/mensagem/ultimas-noticias/v3`, {}, {
+        headers: {
+          "Content-type": "Application/json",
+          "Authorization": `Bearer ${token}`
+        }
+      });
+
+
+      // if(response.data.conteudo.length === 0) {
+      //   Alert.alert("Usuário inválido", "Usuário ou senha inválida. Tente novamente.");
+      // }
+
+      console.log(response.data);
+      console.log("CARREGOU");
+
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   useEffect(() => {
     // Testar valor retornado = LEMBRAR DE TIRAR DEPOIS
     const conteudoAdd: SchoolProps[] = [];
@@ -80,7 +103,7 @@ function AuthProvider({children}: AuthProviderProps) {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ school, signIn }}>
+    <AuthContext.Provider value={{ school, signIn, chargeSchool }}>
       {children}
     </AuthContext.Provider>
   )

@@ -1,5 +1,7 @@
 import React from 'react';
 import { MaterialIcons } from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/core';
+import { StackNavigationProp } from '@react-navigation/stack';
 
 import {
   Container,
@@ -10,14 +12,29 @@ import {
   UrlSchool,
   IconForward,
 } from './styles';
+import { RootStackParamList } from '../../routes/stack.routes';
+
+type schoolScreenProp = StackNavigationProp<RootStackParamList, 'Schools'>;
 
 interface Props {
   iconImg: string;
   nameSchool: string;
   urlSchool: string;
+  token: string;
 }
 
-export function SchoolCard({iconImg, nameSchool, urlSchool}: Props) {
+export function SchoolCard({ iconImg, nameSchool, urlSchool, token }: Props) {
+
+  const navigation = useNavigation<schoolScreenProp>();
+
+  function handleNavigationNextPage() {
+    navigation.navigate('LoadingPage', { 
+      imageUrl: iconImg,
+      contexto: urlSchool,
+      token: token,
+    });
+  }
+
   return (
     <Container>
       <WrapperIconDetails>
@@ -30,7 +47,7 @@ export function SchoolCard({iconImg, nameSchool, urlSchool}: Props) {
         </SchoolDetails>
       </WrapperIconDetails>
 
-      <IconForward>
+      <IconForward onPress={handleNavigationNextPage}>
         <MaterialIcons 
           name="arrow-forward-ios"
           size={22}
