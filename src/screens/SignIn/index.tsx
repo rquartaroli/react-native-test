@@ -71,7 +71,7 @@ export function SignIn() {
 
             <InputUser 
               placeholder="Usuário"
-              autoCapitalize="sentences"
+              autoCapitalize="none"
               autoCorrect={false}
               placeholderTextColor="#FFF"
               onChangeText={setUser}
@@ -93,7 +93,7 @@ export function SignIn() {
               autoCapitalize="none"
               autoCorrect={false}
               placeholderTextColor="#FFF"
-              secureTextEntry={true}
+              // secureTextEntry={true}
               onChangeText={setPassword}
               value={password}
             />
