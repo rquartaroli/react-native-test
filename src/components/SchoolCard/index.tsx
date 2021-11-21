@@ -32,6 +32,7 @@ export function SchoolCard({ iconImg, nameSchool, urlSchool, token }: Props) {
       imageUrl: iconImg,
       contexto: urlSchool,
       token: token,
+      nameSchool: nameSchool,
     });
   }
 

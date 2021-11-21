@@ -1,4 +1,7 @@
 import React, { useState } from 'react';
+import { useNavigation } from '@react-navigation/core';
+import { StackNavigationProp } from '@react-navigation/stack';
+
 import { 
   Feather, 
   MaterialIcons, 
@@ -26,15 +29,21 @@ import { Button } from '../../components/Button';
 import { ButtonHref } from '../../components/ButtonHref';
 import { ButtonWithIcon } from '../../components/ButtonWithIcon';
 import { useAuth } from '../../hooks/auth';
+import { RootStackParamList } from '../../routes/stack.routes';
+
+type signInScreenProp = StackNavigationProp<RootStackParamList, 'SignIn'>;
 
 export function SignIn() {
   const [user, setUser] = useState('');
   const [password, setPassword] = useState('');
 
+  const navigation = useNavigation<signInScreenProp>();
+
   const { signIn } = useAuth();
 
   async function handleSignIn() {
-    signIn(user, password);
+    await signIn(user, password);
+    navigation.navigate('Schools');
   }
 
   return (
@@ -93,7 +102,7 @@ export function SignIn() {
               autoCapitalize="none"
               autoCorrect={false}
               placeholderTextColor="#FFF"
-              // secureTextEntry={true}
+              secureTextEntry={true}
               onChangeText={setPassword}
               value={password}
             />

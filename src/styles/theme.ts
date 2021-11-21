@@ -6,5 +6,7 @@ export default {
 
     text: '#FFF',
     text_dark: '#000',
+
+    notification: '#FA6F67',
   },
 }

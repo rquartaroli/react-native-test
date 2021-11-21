@@ -6,6 +6,7 @@ import React, {
   useState, 
 } from 'react';
 import { Alert } from 'react-native';
+import { FeedSchoolDTO } from '../dtos/FeedSchoolDTO';
 import { ListSchoolDTO } from '../dtos/ListSchoolDTO';
 import api from '../services/api';
 
@@ -20,14 +21,13 @@ interface SchoolProps {
   token: string,
 }
 
-// interface User {
-//   id: number;
-//   nomeAplicativo: string;
-//   contexto: string;
-// }
+interface FeedProps {
+  feed: FeedSchoolDTO[];
+}
 
 interface IAuthContextData {
   school: SchoolProps[];
+  feed: FeedSchoolDTO[];
   signIn(login: string, senha: string): Promise<void>;
   chargeSchool(contexto: string, token: string): Promise<void>;
 }
@@ -36,6 +36,7 @@ const AuthContext = createContext({} as IAuthContextData);
 
 function AuthProvider({children}: AuthProviderProps) {
   const [school, setSchool] = useState<SchoolProps[]>([]);
+  const [feed, setFeed] = useState<FeedSchoolDTO[]>([]);
 
   async function signIn(login: string, senha: string) {
     try {
@@ -58,8 +59,9 @@ function AuthProvider({children}: AuthProviderProps) {
         })
       });
 
-      setSchool(conteudoAdded);
-      console.log("Foi até o final");
+      // setSchool(conteudoAdded); // COMENTADO POR QUE NÃO ESTA FUNCIONANDO, AINDA NÃO SEI PQ
+      // console.log(response.data);
+      // console.log("Foi até o final");
 
     } catch (error) {
       console.log(error);
@@ -68,20 +70,25 @@ function AuthProvider({children}: AuthProviderProps) {
 
   async function chargeSchool(contexto: string, token: string) {
     try {
-      const response = await api.post(`https://${contexto}/api/mensagem/ultimas-noticias/v3`, {}, {
+      const response = await api.post<FeedProps>(`https://${contexto}/api/mensagem/ultimas-noticias/v3`, {}, {
         headers: {
           "Content-type": "Application/json",
-          "Authorization": `Bearer ${token}`
+          "X-Authorization": `Bearer ${token}`
         }
       });
 
+      const feedAdd: FeedSchoolDTO[] = [];
 
-      // if(response.data.conteudo.length === 0) {
-      //   Alert.alert("Usuário inválido", "Usuário ou senha inválida. Tente novamente.");
-      // }
+      response.data.feed.map((feedItem) => {
+        feedAdd.push({
+          ...feedItem
+        })
+      });
 
-      console.log(response.data);
-      console.log("CARREGOU");
+      setFeed(feedAdd);
+
+      // console.log(response.data);
+      // console.log("CARREGOU");
 
     } catch (error) {
       console.log(error);
@@ -89,7 +96,7 @@ function AuthProvider({children}: AuthProviderProps) {
   }
 
   useEffect(() => {
-    // Testar valor retornado = LEMBRAR DE TIRAR DEPOIS
+    // Testar valor retornado 
     const conteudoAdd: SchoolProps[] = [];
 
     conteudoAdd.push({
@@ -103,7 +110,7 @@ function AuthProvider({children}: AuthProviderProps) {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ school, signIn, chargeSchool }}>
+    <AuthContext.Provider value={{ school, feed, signIn, chargeSchool }}>
       {children}
     </AuthContext.Provider>
   )

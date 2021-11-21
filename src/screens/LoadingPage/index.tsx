@@ -14,6 +14,7 @@ interface Params {
   imageUrl: string;
   contexto: string;
   token: string;
+  nameSchool: string;
 }
 
 type loadingScreenProp = StackNavigationProp<RootStackParamList, 'LoadingPage'>;
@@ -21,11 +22,20 @@ type loadingScreenProp = StackNavigationProp<RootStackParamList, 'LoadingPage'>;
 export function LoadingPage() {
   const navigation = useNavigation<loadingScreenProp>();
   const route = useRoute();
-  const { imageUrl, contexto, token } = route.params as Params;
+  const { imageUrl, contexto, token, nameSchool } = route.params as Params;
   const { chargeSchool } = useAuth();
 
   useEffect(() => {
-    chargeSchool(contexto, token);
+    async function fetchChargeSchool() {
+      await chargeSchool(contexto, token);
+
+      navigation.navigate('FeedPage',{
+        imageUrl: imageUrl,
+        nameSchool: nameSchool,
+      });
+    }
+    fetchChargeSchool();
+    
   },[]);
 
   return (
